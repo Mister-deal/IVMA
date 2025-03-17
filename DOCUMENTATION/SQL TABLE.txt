@@ -67,10 +67,8 @@ CREATE TABLE suppliers (
 CREATE TABLE categories (
     id VARCHAR(36) PRIMARY KEY DEFAULT UUID(),
     name VARCHAR(255) NOT NULL UNIQUE,
-    parent_category_id VARCHAR(36),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (parent_category_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 
 
@@ -100,13 +98,13 @@ CREATE TABLE notifications (
 
 Résumé des cardinalités
 Table	Relation	Cardinalité
-Users	Carts	1:1
-Users	password_resets	1:N
+Users	Carts			1:1
+Users	password_resets		1:N
 Users	inventory_movements	1:N
-Users	Notifications	1:N
-Carts	Users	1:1
-Carts	CartItems	1:N
-CartItems	Carts	N:1
+Users	Notifications		1:N
+Carts	Users			1:1
+Carts	CartItems		1:N
+CartItems	Carts		N:1
 CartItems	Products	N:1
 Products	Suppliers	N:1
 Products	Categories	N:1
@@ -114,7 +112,8 @@ Products	CartItems	1:N
 Products	inventory_movements	1:N
 inventory_movements	Products	N:1
 inventory_movements	Users	N:1
-Notifications	Users	N:1
+Notifications	Users		N:1
+
 Workflow du panier
 
     Un utilisateur crée un panier (Carts).
