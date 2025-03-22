@@ -1,0 +1,159 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql" // ou "mysql" selon votre base de données
+  url      = env("DATABASE_URL") // URL de la base de données
+}
+
+model Users {
+  id             String         @id @default(uuid())
+  pseudo         String         @unique
+  email          String         @unique
+  password_hash  String
+  role           Role           @default(employee)
+  is_active      Boolean        @default(true)
+  created_at     DateTime       @default(now())
+  updated_at     DateTime       @updatedAt
+
+  // Relations
+  carts            Carts[]
+  password_resets  Password_resets[]
+  movements        Movements[]
+  notifications    Notifications[]
+}
+
+model Password_resets {
+  id          String   @id @default(uuid())
+  user_id     String
+  token       String   @unique
+  expires_at  DateTime
+  used        Boolean  @default(false)
+  created_at  DateTime @default(now())
+
+  // Relations
+  user Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model Carts {
+  id          String   @id @default(uuid())
+  user_id     String   @unique
+  status      CartStatus @default(pending)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  // Relations
+  user      Users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  cartItems CartItems[]
+}
+
+model CartItems {
+  id         String   @id @default(uuid())
+  cart_id    String
+  product_id String
+  quantity   Int
+  action     Action
+  scanned_at DateTime @default(now())
+
+  // Relations
+  cart    Carts    @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  product Products @relation(fields: [product_id], references: [id], onDelete: Cascade)
+}
+
+model Products {
+  id             String   @id @default(uuid())
+  name           String
+  description    String?
+  sku            String   @unique
+  price          Float
+  quantity       Int      @default(0)
+  min_stock_alert Int      @default(5)
+  supplier_id    String?
+  category_id    String?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  // Relations
+  supplier       Suppliers? @relation(fields: [supplier_id], references: [id], onDelete: SetNull)
+  category       Categories? @relation(fields: [category_id], references: [id], onDelete: SetNull)
+  cartItems      CartItems[]
+  movements      Movements[]
+}
+
+model Suppliers {
+  id           String   @id @default(uuid())
+  name         String
+  contact_email String?
+  phone        String?
+  address      String?
+  created_at   DateTime @default(now())
+
+  // Relations
+  products Products[]
+}
+
+model Categories {
+  id                String   @id @default(uuid())
+  name              String   @unique
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  // Relations
+  products Products[]
+}
+
+model Movements {
+  id             String   @id @default(uuid())
+  product_id     String
+  user_id        String
+  quantity       Int
+  movement_type  MovementType
+  reason         String?
+  movement_date  DateTime @default(now())
+
+  // Relations
+  product Products @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  user    Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model Notifications {
+  id         String   @id @default(uuid())
+  user_id    String
+  type       NotificationType
+  message    String
+  is_read    Boolean  @default(false)
+  created_at DateTime @default(now())
+
+  // Relations
+  user Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+// Enums
+enum Role {
+  admin
+  manager
+  employee
+}
+
+enum CartStatus {
+  pending
+  completed
+}
+
+enum Action {
+  add
+  remove
+}
+
+enum MovementType {
+  entry
+  exit
+}
+
+enum NotificationType {
+  stock_alert
+  movement_confirmation
+  system_alert
+}
