@@ -1,0 +1,38 @@
+<div class="login-container">
+    <div class="login-form">
+      <div class="logo">
+        <img src="assets/logo.png" alt="IVMA Logo">
+      </div>
+  
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="input-group">
+          <label for="email">✉️</label>
+          <input type="text" formControlName="username" placeholder=" Adresse Email">
+        </div>
+        
+        <div class="input-group">
+          <label for="email">🔒</label>
+          <input type="password" formControlName="password" placeholder=" Mot de passe">
+        </div>
+        
+        <div>
+          <button type="submit" class="login-btn" [disabled]="!loginForm.valid">Connexion</button>
+        </div>
+        
+        <div>
+          <div>
+            <a href="javascript:void(0)" (click)="openPasswordModal()" class="forgot-password">
+              Mot de passe oublié
+            </a>
+          </div>
+          <div>
+            <a routerLink="/inscription" class="register">Pas encore de compte? Inscrivez-vous</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  
+    <app-modal-mdp-oublie 
+    *ngIf="showPasswordModal"
+    (close)="closePasswordModal()">
+  </app-modal-mdp-oublie>

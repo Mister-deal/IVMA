@@ -1,0 +1,15 @@
+<div class="modal-overlay" (click)="close.emit()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2>Réinitialisation du mot de passe</h2>
+      <form (ngSubmit)="onSubmit()">
+        <div class="input-group">
+          <label>✉️ Email</label>
+          <input type="email" [(ngModel)]="email" name="email" required>
+        </div>
+        <div class="modal-buttons">
+          <button type="button" (click)="close.emit()">Annuler</button>
+          <button type="submit">Envoyer</button>
+        </div>
+      </form>
+    </div>
+  </div>

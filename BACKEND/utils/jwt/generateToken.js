@@ -25,7 +25,6 @@ const generateToken = async (user, res) => {
     }
 
     const token = sign(payload, privateKey, signOptions)
-
     return token
 
 }
