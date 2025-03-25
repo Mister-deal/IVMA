@@ -7,14 +7,14 @@ const findUserEmail =  require('../../services/users.services').findUserWhereEma
 
 const { sign } = require('jsonwebtoken');
 const fs = require('fs');
-const res = require("express/lib/response");
-const {router} = require("express/lib/application");
+
+const path = require('path');
 require('dotenv').config();
 
-const privateKeyPath = process.env.BASE_APP + 'etc/ssh/private_key.key'
+const privateKeyPath = path.join(process.env.BASE_APP, 'etc/ssh/private_key.key');
 if(!fs.existsSync(privateKeyPath)){
     console.error('error: Private key does not found: ', privateKeyPath)
-    res.status(500).send({error: 'Error occurred during authentication'})
+    return res.status(500).send({error: 'Error occurred during authentication'})
 }
 
 const loginController = async (req, res) => {
