@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    margin:0px;
+}
+
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    max-width: 70%;
+    margin: 0 auto;
+    height: 50vh;
+    padding: 5%;
+    background-color: #FFA64D;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+h1{
+    color: #000000;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: left;
+    margin: 0px 10%;
+}
+.login-btn {
+    background-color: #008d18;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 25px;
+    padding: 12px 0;
+    width: 100px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 15px;
+}
+.cardhaut{
+    display: flex;
+    padding-bottom: 10px;
+    justify-content: space-between;
+}
+.card h2 {
+    color: #333;
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+.recent-list, .product-list, .activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.recent-list li, .product-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.alert {
+    background-color: #fff0f0;
+    border-left: 4px solid #ff4444;
+}
+
+.alert-item {
+    color: #ff4444;
+    font-weight: bold;
+}
+
+.mises-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.9em;
+}
+
+.activity-item {
+    color: #666;
+    font-size: 0.9em;
+    margin-left: 15px;
+}

@@ -1,0 +1,160 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    height: 80vh;
+}
+
+.container {
+    display: flex;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-width: 80%;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.left-section {
+    width: 35%;
+    padding: 20px;
+    border-right: 1px solid #e0e0e0;
+    text-align: center;
+    justify-content: center;
+    display: grid
+;
+}
+
+.qr-code {
+    position: relative;
+    width: 60%;
+    height: 200px;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10% 20% 0% 30%;
+}
+
+.qr-code img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.delete-icon {
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.product-name {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.category {
+    margin-bottom: 20px;
+}
+.qr-delete-edit{
+    display: flex;
+}
+.category-label {
+    display: block;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.category-selector {
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    border-radius: 5px;
+    color: #888;
+}
+
+.quantity-container {
+    display: flex;
+    gap: 10px;
+}
+
+.quantity-actual,
+.quantity-min {
+    flex: 1;
+}
+
+.quantity-container span {
+    display: block;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.quantity-container input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.right-section {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.section-title {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.movement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.movement-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    gap: 20px;
+}
+
+.movement-label {
+    flex-grow: 1;
+    border: 1px solid #000000;
+    border-radius: 20px;
+    height: 40px;
+    text-align: center;
+}
+
+.movement-indicators {
+    display: flex;
+    gap: 5px;
+    margin: 0 15px;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.indicator.pink {
+    background-color: pink;
+}
+
+.indicator.green {
+    background-color: green;
+}
+
+.movement-date,
+.movement-location,
+.movement-quantity {
+    color: #888;
+    margin-right: 15px;
+}

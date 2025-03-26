@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.container {
+    padding: 5% 30px;
+}
+
+.user-profile-form {
+    background-color: #ff9900;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+    padding: 5%;
+}
+form{
+    display: contents;
+} 
+
+.user-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #808080;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ff9900;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5%;
+}
+
+.delete-user {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 80%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.update-button {
+    width: 30%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    
+}
+
+.update-button:hover {
+    background-color: #0056b3;
+}
+
+.button{
+    justify-content: space-around;
+    width: 100%;
+    background-color: #ff9900;
+    display: flex;
+    border-radius: 0px 0px 10px 10px;
+    padding: 0px 0px 20px 0px;
+}
