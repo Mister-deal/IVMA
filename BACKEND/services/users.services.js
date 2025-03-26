@@ -34,6 +34,23 @@ const removeUser = async (users_id) => {
     })
 }
 
+const updateUserPassword = async (users_id, password_hash) => {
+    return await prisma.users.update({
+        where: { id: users_id }, // Note: Votre modèle utilise 'id' comme clé, pas 'users_id
+        data: {
+            password_hash,
+            updated_at: new Date()
+        },
+        select: {
+            id: true,
+            pseudo: true,
+            email: true,
+            role: true,
+            is_active: true
+        }
+    });
+};
+
 const findAllUsers = async () => {
     return await prisma.users.findMany()
 }
@@ -71,4 +88,5 @@ module.exports = {
     findUserWhereEmail,
     findUserWherePseudo,
     findUserWhereId,
+    updateUserPassword,
 }
