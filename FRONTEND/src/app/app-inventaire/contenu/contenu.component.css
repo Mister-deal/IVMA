@@ -1,0 +1,129 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0; 
+    background-color: #f4f4f4;
+    
+}
+
+.container {
+    display: flex;
+    padding: 8% 10% 0% 10%;
+    background-color: #f4f4f4;
+}
+
+.main-content {
+    flex-grow: 1;
+    background-color: #f4f4f4;
+    width: 60%;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    display: 	grid;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.action-btn {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.action-btn.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.export-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    width: 150px;
+    height: 50px;
+    border-radius: 20px;
+}
+.listpages{
+    background-color: #FFA64D;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    gap: 20px;
+    border-radius: 20px;
+    height: 50px;
+    padding: 5px;
+}
+.stats-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-box {
+    flex-grow: 1;
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.stat-label {
+    color: #888;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 1.5em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.percentage {
+    font-size: 0.6em;
+    margin-right: 10px;
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+.percentage.up {
+    background-color: #e6f3e6;
+    color: green;
+}
+
+.percentage.down {
+    background-color: #f3e6e6;
+    color: red;
+}
+
+.charts-container {
+    display: flex;
+    gap: 15px;
+}
+
+.chart {
+    flex-grow: 1;
+    background-color: #FFA64D;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.chart-placeholder {
+    height: 150px;
+    background-color: #f0f0f0;
+    margin-top: 10px;
+}
+
+.chart-title {
+    color: #888;
+    font-weight: bold;
+}

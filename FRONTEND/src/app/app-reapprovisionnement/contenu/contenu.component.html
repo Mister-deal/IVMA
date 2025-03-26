@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information sur la demande de réapprovisionnement</title>
+    <link rel="stylesheet" href="contenu.component.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Information sur la demande de réapprovisionnement</h1>
+        <div class="product-info">
+            <div class="product-label">
+                <span class="circle">A</span>
+                Nom du produit
+                <span class="location">Emplacement</span>
+            </div>
+            <div class="quantity-container">
+                <div class="quantity-before">
+                    <label>Quantité avant ajout :</label>
+                    <input type="text" value="20" readonly>
+                </div>
+                <div class="quantity-after">
+                    <label>Quantité après ajout :</label>
+                    <input type="text" value="25" readonly>
+                </div>
+            </div>
+            <div class="status-container">
+                <label>Statut de la demande :</label>
+                <div class="status-buttons">
+                    <button class="valid">Validé</button>
+                    <button class="refused">Refusé</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

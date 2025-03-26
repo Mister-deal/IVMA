@@ -1,0 +1,22 @@
+.page-container {
+    display: flex;
+    gap: 20px; /* Espace entre les composants */
+  }
+.conteneur{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #f4f4f4;
+}
+
+app-contenu{
+    display: grid;
+    width: 65vw;
+}
+app-liste{
+    display: grid;
+    background-color: #ff9900;
+}
+app-header{
+    width: 100vw;
+    justify-content: space-between;
+}

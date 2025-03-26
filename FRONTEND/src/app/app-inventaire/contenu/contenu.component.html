@@ -1,1 +1,63 @@
-<p>contenu works!</p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste Inventaire</title>
+    <link rel="stylesheet" href="contenu.component.css">
+</head>
+<body>
+    <div class="container">
+
+        <div class="main-content">
+            <div class="header">
+                <div class="header-actions">
+                    <h1>Information sur l'inventaire choisi</h1>
+                    <button class="export-btn">Exporter</button>
+                </div>
+                <div class="listpages">
+                    <button class="action-btn">Historique</button>
+                    <button class="action-btn">Entrées du mois</button>
+                    <button class="action-btn">Sorties du mois</button>
+                    <button class="action-btn active">Statistiques</button>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-label">Total Produits</div>
+                    <div class="stat-value">
+                        <span class="percentage down">-20%</span>
+                        1,500
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Entrées du mois</div>
+                    <div class="stat-value">
+                        <span class="percentage up">+5%</span>
+                        1,000
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Sorties du mois</div>
+                    <div class="stat-value">
+                        <span class="percentage up">+35%</span>
+                        1,100
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart">
+                    <div class="chart-title">Evolution du stock par mois</div>
+                    <div class="chart-placeholder"></div>
+                </div>
+                <div class="chart">
+                    <div class="chart-title">Répartition par Catégorie</div>
+                    <div class="chart-placeholder"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
