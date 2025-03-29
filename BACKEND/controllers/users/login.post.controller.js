@@ -1,63 +1,104 @@
 const bcrypt = require('bcrypt');
-const emailRegex = require('../../utils/regex/regex_utils').emailRegex
-const passwordRegex = require('../../utils/regex/regex_utils').passwordRegex
-
-const findUserId =  require('../../services/users.services').findUserWhereId
-const findUserEmail =  require('../../services/users.services').findUserWhereEmail
-
 const { sign } = require('jsonwebtoken');
 const fs = require('fs');
-
 const path = require('path');
 require('dotenv').config();
 
-const privateKeyPath = path.join(process.env.BASE_APP, 'etc/ssh/private_key.key');
-if(!fs.existsSync(privateKeyPath)){
-    console.error('error: Private key does not found: ', privateKeyPath)
-    return res.status(500).send({error: 'Error occurred during authentication'})
-}
+// Importations
+const {
+    emailRegex,
+    passwordRegex
+} = require('../../utils/regex/regex_utils');
+const {
+    findUserWhereEmail,
+    findUserWhereId
+} = require('../../services/users.services');
+const {
+    validateUUID
+} = require('../../utils/regex/validators');
+
+// Configuration JWT
+const PRIVATE_KEY_PATH = path.join(process.env.BASE_APP, 'etc/ssh/private_key.key');
+const JWT_OPTIONS = {
+    algorithm: 'RS512',
+    expiresIn: '14400s' // 4 heures
+};
 
 const loginController = async (req, res) => {
-    const data = req.body
-    const {email, password} = data
-    console.log(data)
-    let userLogin
+    const { email, password } = req.body;
 
-    if(email !== null && emailRegex.test(email)) {
-        userLogin = await findUserEmail(email.toLowerCase())
+    // 1. Vérification de la clé privée
+    if (!fs.existsSync(PRIVATE_KEY_PATH)) {
+        console.error('Erreur: Clé privée introuvable', PRIVATE_KEY_PATH);
+        return res.status(500).json({
+            error: 'Configuration serveur invalide'
+        });
     }
 
     try {
-        const user = await findUserId(userLogin.user_id)
-        if(user !== null) {
-            const result = await bcrypt.compare(password, user.password)
-            if(result) {
-                const payload = {
-                    pseudo: user.pseudo,
-                    userId: user.user_id,
-                    role: user.role,
-                }
-
-                const privateKey = fs.readFileSync(privateKeyPath, 'utf8')
-
-                const signOptions = {
-                    algorithm: 'RS512',
-                    expiresIn: '14400s',
-                }
-                const token = sign(payload, privateKey, signOptions)
-
-                console.log('token generated: ', token)
-                res.status(200).json({token})
-            } else {
-                return res.status(401).json({error: 'Invalid Credentials'})
-            }
-        }else {
-            return res.status(401).json({error: 'Invalid Credentials'})
+        // 2. Validation des entrées
+        if (!email || !emailRegex.test(email)) {
+            return res.status(400).json({
+                error: 'Format email invalide',
+                error_code: 'INVALID_EMAIL'
+            });
         }
-    } catch (error) {
-        console.error('error during the login process:', error)
-        return res.status(500).json({error: 'internal server error'})
-    }
-}
 
-module.exports = loginController
+        if (!password || !passwordRegex.test(password)) {
+            return res.status(400).json({
+                error: 'Le mot de passe doit contenir 8 caractères avec majuscule, minuscule et chiffre',
+                error_code: 'INVALID_PASSWORD'
+            });
+        }
+
+        // 3. Recherche de l'utilisateur
+        const userLogin = await findUserWhereEmail(email.toLowerCase());
+        if (!userLogin || !validateUUID(userLogin.users_id)) {
+            return res.status(401).json({
+                error: 'Identifiants incorrects',
+                error_code: 'AUTH_FAILED'
+            });
+        }
+
+        // 4. Vérification du mot de passe
+        const user = await findUserWhereId(userLogin.users_id);
+        if (!user || !(await bcrypt.compare(password, user.password_hash))) {
+            return res.status(401).json({
+                error: 'Identifiants incorrects',
+                error_code: 'AUTH_FAILED'
+            });
+        }
+
+        // 5. Génération du token
+        const privateKey = fs.readFileSync(PRIVATE_KEY_PATH, 'utf8');
+        const token = sign(
+            {
+                pseudo: user.pseudo,
+                userId: user.users_id,
+                role: user.role
+            },
+            privateKey,
+            JWT_OPTIONS
+        );
+
+        // 6. Réponse
+        return res.status(200).json({
+            token,
+            user: {
+                id: user.users_id,
+                pseudo: user.pseudo,
+                email: user.email,
+                role: user.role
+            }
+        });
+
+    } catch (error) {
+        console.error('Erreur lors de l\'authentification:', error);
+        return res.status(500).json({
+            error: 'Erreur serveur',
+            error_code: 'SERVER_ERROR'
+        });
+    }
+};
+
+module.exports = loginController;

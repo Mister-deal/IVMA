@@ -1,43 +1,77 @@
-const updatePasswordUser = require('../../services/users.services').updateUserPassword
+const updateUserPassword = require('../../services/users.services').updateUserPassword;
 const bcrypt = require('bcrypt');
-const findUserWhereId = require('../../services/users.services').findUserWhereId
+const { findUserWhereId } = require('../../services/users.services');
+const { validateUUID } = require('../../utils/regex/validators');
+const { passwordRegex} = require('../../utils/regex/regex_utils')
 
-const updateRoleUserController = async (req, res) => {
+const updateUserPasswordController = async (req, res) => {
     const { userId, newPassword } = req.body;
     const requesterRole = req.user?.role;
 
-    if(requesterRole !== 'admin'){
-        return res.status(403).json({message: 'Action only available for the admin'});
+    // 1. Vérification des permissions
+    if (requesterRole !== 'admin') {
+        return res.status(403).json({
+            success: false,
+            message: 'Action réservée aux administrateurs',
+            error_code: 'FORBIDDEN_ACTION'
+        });
     }
 
-    if (!userId || !newPassword) {
+    // 2. Validation des entrées
+    if (!userId || !validateUUID(userId)) {
         return res.status(400).json({
-            message: 'UserId and new password required'
+            success: false,
+            message: 'UUID utilisateur invalide',
+            error_code: 'INVALID_UUID'
+        });
+    }
+
+    if (!newPassword || !passwordRegex.test(newPassword)) {
+        return res.status(400).json({
+            success: false,
+            message: 'Le mot de passe doit contenir 8 caractères avec majuscule, minuscule et chiffre',
+            error_code: 'INVALID_PASSWORD_FORMAT'
         });
     }
 
     try {
+        // 3. Vérification de l'existence de l'utilisateur
         const user = await findUserWhereId(userId);
         if (!user) {
-            return res.status(404).json({message: 'User was not found'});
+            return res.status(404).json({
+                success: false,
+                message: 'Utilisateur non trouvé',
+                error_code: 'USER_NOT_FOUND'
+            });
         }
 
-        const saltRounds = 10
+        // 4. Hashage du mot de passe
+        const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
 
-        const updatedUser = await updatePasswordUser(userId, hashedPassword);
+        // 5. Mise à jour
+        const updatedUser = await updateUserPassword(userId, hashedPassword);
 
         return res.status(200).json({
-            message: 'User updated successfully',
-            user: updatedUser,
+            success: true,
+            message: 'Mot de passe mis à jour avec succès',
+            data: {
+                id: updatedUser.id,
+                pseudo: updatedUser.pseudo,
+                email: updatedUser.email,
+                role: updatedUser.role
+            }
         });
-    } catch (error) {
-        console.error('Error while updating user', error);
-        return res.status(500).json({
-            message: 'error server',
-            error: process.env.NODE_ENV === 'development' ? error.message : undefined
-        })
-    }
-}
 
-module.exports = updateRoleUserController
+    } catch (error) {
+        console.error('Erreur:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Erreur serveur',
+            error_code: 'SERVER_ERROR',
+            details: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }
+};
+
+module.exports = updateUserPasswordController;

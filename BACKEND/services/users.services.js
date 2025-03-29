@@ -51,6 +51,23 @@ const updateUserPassword = async (users_id, password_hash) => {
     });
 };
 
+const updateUserRole = async (userId, newRole) => {
+    return await prisma.users.update({
+        where: { users_id: userId },
+        data: {
+            role: newRole,
+            updated_at: new Date() // Mise à jour automatique du timestamp
+        },
+        select: {
+            users_id: true,
+            pseudo: true,
+            email: true,
+            role: true,
+            is_active: true
+        }
+    });
+};
+
 const findAllUsers = async () => {
     return await prisma.users.findMany()
 }
@@ -89,4 +106,5 @@ module.exports = {
     findUserWherePseudo,
     findUserWhereId,
     updateUserPassword,
+    updateUserRole
 }

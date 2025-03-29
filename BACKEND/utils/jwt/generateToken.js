@@ -1,32 +1,25 @@
-const { sign } = require('jsonwebtoken')
-const fs = require('fs')
-require('dotenv').config()
-const rsaPrivateKey = process.env.BASE_APP
+// utils/auth/generateToken.js
+const fs = require('fs');
+const { sign } = require('jsonwebtoken');
+const path = require('path');
+require('dotenv').config();
 
-const generateToken = async (user, res) => {
-    const role = user.role
-    if (role === null) {
-        return res.status(500).send({error: 'Error occurred during authentication'})
-    }
+const PRIVATE_KEY_PATH = path.join(process.env.BASE_APP, 'etc/ssh/private_key.key');
 
-    const payload = {
-        pseudo: user.pseudo,
-        userId: user.users_id,
-        role,
-    }
+module.exports = async (user) => {
+    const privateKey = fs.readFileSync(PRIVATE_KEY_PATH, 'utf8');
 
-    const privateKey = fs.readFileSync(
-        rsaPrivateKey + '/etc/ssh/private_key.key'
-    )
+    return sign(
+        {
+            pseudo: user.pseudo,
+            userId: user.users_id,
+            role: user.role
+        },
+        privateKey,
+        {
+            algorithm: 'RS512',
+            expiresIn: '14400s'
+        }
+    );
+};
 
-    const signOptions = {
-        algorithm: 'RS512',
-        expiresIn: '14400s',
-    }
-
-    const token = sign(payload, privateKey, signOptions)
-    return token
-
-}
-
-module.exports = generateToken

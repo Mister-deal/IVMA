@@ -1,32 +1,49 @@
-const updateRoleUserController = require("./updatePasswordUser.patch.controller");
-const getAllUsers = require('../../services/users.services').findAllUsers
+const { findAllUsers } = require('../../services/users.services');
 
 const getAllUsersController = async (req, res) => {
     try {
-        const users = await getAllUsers
+        // 1. Vérification des permissions (optionnelle)
+        const requesterRole = req.user?.role;
+        if (!['admin', 'manager'].includes(requesterRole)) {
+            return res.status(403).json({
+                success: false,
+                message: 'Accès non autorisé',
+                error_code: 'FORBIDDEN'
+            });
+        }
 
+        // 2. Récupération des utilisateurs
+        const users = await findAllUsers();
+
+        // 3. Filtrage des données sensibles
         const sanitizedUsers = users.map(user => ({
-            id: user.users_id || user.id,
+            id: user.users_id, // Préférez une nomenclature cohérente (users_id partout)
             pseudo: user.pseudo,
             email: user.email,
             role: user.role,
             is_active: user.is_active,
             created_at: user.created_at,
-            updated_at: user.updated_at,
-        }))
+            updated_at: user.updated_at
+        }));
 
+        // 4. Réponse
         res.status(200).json({
             success: true,
-            data: sanitizedUsers,
+            count: sanitizedUsers.length,
+            data: sanitizedUsers
         });
+
     } catch (error) {
-        console.error('Error during the retrieval of all users:', error)
+        console.error(`[${new Date().toISOString()}] Erreur:`, error);
         res.status(500).json({
             success: false,
-            message: 'internal server error',
-            error: error.message,
-        })
+            message: 'Erreur lors de la récupération des utilisateurs',
+            error_code: 'SERVER_ERROR',
+            ...(process.env.NODE_ENV === 'development' && {
+                debug: error.message
+            })
+        });
     }
-}
+};
 
-module.exports = updateRoleUserController
+module.exports = getAllUsersController; // Correction: export du bon contrôleur
