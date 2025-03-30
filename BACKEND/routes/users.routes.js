@@ -1,48 +1,56 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../authentification/auth');
+const auth = require('../middlewares/auth');
+const { checkRole } = require('../middlewares/roleMiddleware');
+const {
+    registerPostController,
+    loginPostController,
+    userAllGetController,
+    userUniqueGetController,
+    updateUserPatchController,
+    updateRoleUserPatchController,
+    deleteUserController
+} = require('../controllers/users');
 
-
-const registerPostController = require('../controllers/users/register.post.controller')
-const loginPostController = require('../controllers/users/login.post.controller')
-const userAllGetController = require('../controllers/users/usersAll.get.controller')
-const userUniqueGetController = require('../controllers/users/userUnique.get.controller')
-const updateUserPatchController = require('../controllers/users/updateProfilUser.patch.controller')
-const updateUsersPatchController = require('../controllers/users/updateRoleUser.patch.controller')
-const deleteUserController = require('../controllers/users/user.delete.controller')
-
-
-
-router.post('/register', auth, async (req, res) => {
-    await registerPostController(req, res);
-})
-router.post('/login', auth, async (req, res) => {
-    await loginPostController(res, res)
-})
-
-router.get('/users', auth, async (req, res) => {
-    await userAllGetController(req, res)
-})
-
-router.get('/user/:id', auth, async (req, res) => {
-    await userUniqueGetController(req, res)
-})
-
-router.patch('/user/:pseudo/password', auth, async (req, res) => {
-    await updateUserPatchController(req, res)
-})
-
-router.patch('/user/:pseudo', auth, async (req, res) => {
-    await updateUsersPatchController(req, res)
-})
-
-router.delete('/user/:pseudo', auth, async (req, res) => {
-    await deleteUserController(req, res)
-})
-
+// Routes publiques
+router.post('/register', registerPostController);
+router.post('/login', loginPostController);
 router.get('/logout', (req, res) => {
-    res.clearCookie('access_token')
-    return res.json({ Status: 'Success' })
-})
+    res.clearCookie('access_token');
+    return res.status(200).json({
+        success: true,
+        message: 'Déconnexion réussie'
+    });
+});
 
-module.exports = router
+// Routes protégées
+router.use(auth); // Authentification requise pour toutes les routes suivantes
+
+// Gestion des utilisateurs
+router.get('/users',
+    checkRole(['admin', 'manager']),
+    userAllGetController
+);
+
+router.get('/users/:id',
+    checkRole(['admin', 'manager', 'user']),
+    validateUUID, // Middleware supplémentaire pour valider l'UUID
+    userUniqueGetController
+);
+
+router.patch('/users/:id/password',
+    checkRole(['admin', 'user']),
+    updateUserPatchController
+);
+
+router.patch('/users/:id/role',
+    checkRole(['admin']), // Seul un admin peut modifier les rôles
+    updateRoleUserPatchController
+);
+
+router.delete('/users/:id',
+    checkRole(['admin']),
+    deleteUserController
+);
+
+module.exports = router;
