@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppFormModaleMdpoublieComponent } from './app-form-modale-mdpoublie.component';
+import { FormModaleMdpoublieComponent } from './app-form-modale-mdpoublie.component';
 
-describe('AppFormModaleMdpoublieComponent', () => {
-  let component: AppFormModaleMdpoublieComponent;
-  let fixture: ComponentFixture<AppFormModaleMdpoublieComponent>;
+describe('FormModaleMdpoublieComponent', () => {
+  let component: FormModaleMdpoublieComponent;
+  let fixture: ComponentFixture<FormModaleMdpoublieComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppFormModaleMdpoublieComponent]
+      imports: [FormModaleMdpoublieComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AppFormModaleMdpoublieComponent);
+    fixture = TestBed.createComponent(FormModaleMdpoublieComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
