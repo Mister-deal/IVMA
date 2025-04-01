@@ -26,7 +26,7 @@ const askResetPasswordController = async (req, res) => {
     } else {
         return res
             .status(412)
-            .json({ message: 'Error occured durring the authentication' })
+            .json({ message: 'Error occured during the authentication' })
     }
 
     if (userLogin !== null) {
@@ -37,7 +37,7 @@ const askResetPasswordController = async (req, res) => {
         } catch (error) {
             return res
                 .status(412)
-                .json({ message: 'error occuring during the creating' })
+                .json({ message: 'error occuring during the creation' })
         }
 
         try {
@@ -50,7 +50,7 @@ const askResetPasswordController = async (req, res) => {
                 from: config,
                 to: email,
                 subject:
-                    'Réinitialisation du mot de passe sur AgevalStock.net!',
+                    'Réinitialisation du mot de passe sur IVMA',
                 html: `<html>
                         <head>
                             <title>Réinitialisation du mot de passe [IVMA]</title>
