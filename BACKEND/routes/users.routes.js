@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middlewares/auth');
-const { checkRole } = require('../middlewares/roleMiddleware');
-const {
-    registerPostController,
-    loginPostController,
-    userAllGetController,
-    userUniqueGetController,
-    updateUserPatchController,
-    updateRoleUserPatchController,
-    deleteUserController
-} = require('../controllers/users');
+const auth = require('../authentification/auth');
+const { checkRole } = require('../authentification/roleHierarchy');
+
+const {validateUUID} = require('../utils/regex/validators')
+
+const registerPostController = require('../controllers/users/register.post.controller');
+const loginPostController = require('../controllers/users/login.post.controller');
+const userAllGetController = require('../controllers/users/usersAll.get.controller');
+const userUniqueGetController = require('../controllers/users/userUnique.get.controller');
+const updateUserPatchController = require('../controllers/users/updatePasswordUser.patch.controller');
+const updateRoleUserPatchController = require('../controllers/users/updatePasswordUser.patch.controller');
+const deleteUserController = require('../controllers/users/user.delete.controller');
 
 // Routes publiques
 router.post('/register', registerPostController);
