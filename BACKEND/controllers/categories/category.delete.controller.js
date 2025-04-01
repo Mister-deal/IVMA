@@ -16,7 +16,7 @@ const deleteCategoryController = async (req, res) => {
     try {
         const category = await findCategoryWhereId(id)
         if (!category) {
-            return res.status(404).send({
+            return res.status(404).json({
                 success: false,
                 message: 'category not found',
                 error_code: 'NOT_FOUND',

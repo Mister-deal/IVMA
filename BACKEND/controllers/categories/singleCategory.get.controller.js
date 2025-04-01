@@ -5,7 +5,7 @@ const getUserUniqueController = async (req, res) => {
     const {id} = req.params
 
     if(!validateUUID(id)) {
-        return res.status(400).send({
+        return res.status(400).json({
             success: false,
             message: 'Invalid UUID format',
             error_code: 'INVALID_UUID',
@@ -15,7 +15,7 @@ const getUserUniqueController = async (req, res) => {
     try {
         const category = await findCategoryUnique(id)
         if (!category) {
-            return res.status(404).send({
+            return res.status(404).json({
                 success: false,
                 message: 'category not found',
                 error_code: 'INVALID_CATEGORY',
