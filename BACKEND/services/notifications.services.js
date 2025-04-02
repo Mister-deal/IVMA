@@ -12,10 +12,10 @@ const createNotification = async (data) => {
     })
 }
 
-const markNotificationAsRead = async (notifications_id) => {
+const markNotificationAsRead = async (id) => {
     return await prisma.notifications.update({
         where: {
-            notifications_id,
+            id,
         },
         data: {
             is_read: true,
@@ -23,10 +23,10 @@ const markNotificationAsRead = async (notifications_id) => {
     })
 }
 
-const deleteNotification = async (notifications_id) => {
+const deleteNotification = async (id) => {
     return await prisma.notifications.delete({
         where: {
-            notifications_id,
+            id,
         }
     })
 }
@@ -45,10 +45,10 @@ const findNotificationById = async (id) => {
     });
 };
 
-const findNotificationsByUserId = async (user_id) => {
+const findNotificationsByUserId = async (userId) => {
     return await prisma.notifications.findMany({
         where: {
-            user_id,
+            userId,
         },
     });
 };

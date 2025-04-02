@@ -8,10 +8,10 @@ const createResetPassword = async (data) => {
     });
 }
 
-const findResetPasswordWhereId = async ( resets_password_id ) => {
+const findResetPasswordWhereId = async ( id ) => {
     return await prisma.reset_password.findUnique({
         where: {
-            resets_password_id
+            id
         }
     })
 }
@@ -24,10 +24,10 @@ const findResetPasswordWhereUserId = async ( userId ) => {
     })
 }
 
-const removeResetPassword = async (resets_password_id) => {
+const removeResetPassword = async (id) => {
     return await prisma.reset_password.delete({
         where: {
-            resets_password_id
+            id
         }
     })
 }

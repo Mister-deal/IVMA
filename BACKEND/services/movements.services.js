@@ -8,10 +8,10 @@ const createMovement = async (data) => {
     })
 }
 
-const updateMovementsWhereUserId = async (movements_id) => {
+const updateMovementsWhereUserId = async (id) => {
     return await prisma.movements.update({
         where: {
-            movements_id,
+            id,
         },
         data: {
             userId: null,
@@ -19,10 +19,10 @@ const updateMovementsWhereUserId = async (movements_id) => {
     })
 }
 
-const removeMovement = async (movements_id) => {
+const removeMovement = async (id) => {
     return await prisma.movements.delete({
         where: {
-            movements_id,
+            id,
         },
     })
 }
@@ -39,10 +39,10 @@ const findAllMovementsWhereUserId = async (userId) => {
     })
 }
 
-const findMovementWhereId = async (movements_id) => {
+const findMovementWhereId = async (id) => {
     return await prisma.movements.findUnique({
         where: {
-            movements_id,
+            id,
         },
     })
 }

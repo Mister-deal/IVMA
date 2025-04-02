@@ -8,35 +8,35 @@ const createUsers = async (data) => {
     })
 }
 
-const updateUser = async (users_id, data) => {
+const updateUser = async (id, data) => {
     return await prisma.users.update({
         where: {
-            users_id,
+            id,
         },
         data,
     })
 }
 
-const updateUsers = async (users_id, data) => {
+const updateUsers = async (id, data) => {
     return await prisma.users.update({
         where: {
-            users_id,
+            id,
         },
         data,
     })
 }
 
-const removeUser = async (users_id) => {
+const removeUser = async (id) => {
     return await prisma.users.delete({
         where: {
-            users_id,
+            id,
         },
     })
 }
 
-const updateUserPassword = async (users_id, password_hash) => {
+const updateUserPassword = async (id, password_hash) => {
     return await prisma.users.update({
-        where: { id: users_id }, // Note: Votre modèle utilise 'id' comme clé, pas 'users_id
+        where: { id: id }, // Note: Votre modèle utilise 'id' comme clé, pas 'users_id
         data: {
             password_hash,
             updated_at: new Date()
@@ -51,9 +51,9 @@ const updateUserPassword = async (users_id, password_hash) => {
     });
 };
 
-const updateUserRole = async (userId, newRole) => {
+const updateUserRole = async (id, newRole) => {
     return await prisma.users.update({
-        where: { users_id: userId },
+        where: { id: id },
         data: {
             role: newRole,
             updated_at: new Date() // Mise à jour automatique du timestamp
@@ -72,10 +72,10 @@ const findAllUsers = async () => {
     return await prisma.users.findMany()
 }
 
-const findUserWhereId = async (users_id) => {
+const findUserWhereId = async (id) => {
     return await prisma.users.findUnique({
         where: {
-            users_id,
+            id,
         },
     })
 }
@@ -89,12 +89,14 @@ const findUserWherePseudo = async (pseudo) => {
 }
 
 const findUserWhereEmail = async (email) => {
-    return await prisma.users.findUnique({
-        where: {
-            email,
-        },
-    })
-}
+    // Solution garantie - même requête que votre test
+    const users = await prisma.$queryRaw`
+        SELECT id, email, password_hash, pseudo, role, is_active 
+        FROM users 
+        WHERE email = ${email.toLowerCase()}
+    `;
+    return users[0]; // Retourne le premier résultat
+};
 
 module.exports = {
     createUsers,

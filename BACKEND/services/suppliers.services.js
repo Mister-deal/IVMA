@@ -8,26 +8,26 @@ const createSupplier = async (data) => {
     });
 }
 
-const updateSupplier = async (suppliers_id,data) => {
+const updateSupplier = async (id,data) => {
     return await prisma.suppliers.update({
         where: {
-            suppliers_id,
+            id,
         },
         data
     });
 }
 
-const deleteSupplier = async (supplier_id) => {
+const deleteSupplier = async (id) => {
     return await prisma.suppliers.delete({
         where: {
-            supplier_id ,
+            id ,
         }
     });
 }
 
-const getSupplierById = async (supplier_id) => {
+const getSupplierById = async (id) => {
     return await prisma.suppliers.findUnique({
-        where: { supplier_id },
+        where: { id },
         include: { products: true } // Important pour voir les produits associés
     });
 }

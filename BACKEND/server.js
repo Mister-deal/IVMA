@@ -46,6 +46,15 @@ app.use(qrCodeRouter);
 app.use(supplierRouter);
 app.use(resetPasswordRouter)
 
+
+app.get('/api/test', (req, res) => {
+    res.json({ message: 'GET request reçue !' });
+});
+
+app.post('/api/test', (req, res) => {
+    res.json({ message: 'POST request reçue !', data: req.body });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

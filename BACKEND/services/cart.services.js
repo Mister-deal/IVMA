@@ -9,29 +9,29 @@ const createCart = async (data) => {
 }
 
 
-const updateCart = async (users_id, data) => {
+const updateCart = async (userId, data) => {
     return await prisma.cart.update({
         where: {
-            users_id,
+            userId,
         },
         data,
     })
 }
 
-const removeCart = async (users_id) => {
+const removeCart = async (userId) => {
     return await prisma.cart.delete({
         where: {
-            users_id,
+            userId,
         },
     })
 }
 
 
 
-const findCartWhereId = async (users_id) => {
+const findCartWhereId = async (userId) => {
     return await prisma.cart.findUnique({
         where: {
-            users_id,
+            userId,
         },
     })
 }

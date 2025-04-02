@@ -8,28 +8,28 @@ const createProduct = async (data) => {
     })
 }
 
-const updateProduct = async (products_id, data) => {
+const updateProduct = async (id, data) => {
     return await prisma.products.update({
         where: {
-            products_id,
+            id,
         },
         data,
     })
 }
 
-const updateQRCode = async (products_id, data) => {
+const updateQRCode = async (id, data) => {
     return await prisma.products.update({
         where: {
-            products_id,
+            id,
         },
         data,
     })
 }
 
-const removeProduct = async (products_id) => {
+const removeProduct = async (id) => {
     return await prisma.products.delete({
         where: {
-            products_id,
+            id,
         },
     })
 }
@@ -46,10 +46,10 @@ const findAllProductsWhereCategory = async (categoryId) => {
     })
 }
 
-const findProductWhereId = async (products_id) => {
+const findProductWhereId = async (id) => {
     return await prisma.products.findFirst({
         where: {
-            products_id,
+            id,
         },
     })
 }

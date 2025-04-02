@@ -31,10 +31,10 @@ const removeCartItem = async (id) => {
     });
 };
 
-const findAllCartItemsByCartId = async (cart_id) => {
+const findAllCartItemsByCartId = async (id) => {
     return await prisma.cartItems.findMany({
         where: {
-            cart_id,
+            id,
         },
         include: {
             product: true, // Inclut les détails du produit associé
@@ -53,11 +53,11 @@ const findCartItemById = async (id) => {
     });
 };
 
-const findCartItemByProductAndCart = async (cart_id, product_id) => {
+const findCartItemByProductAndCart = async (id, productId) => {
     return await prisma.cartItems.findFirst({
         where: {
-            cart_id,
-            product_id,
+            id,
+            productId,
         },
         include: {
             product: true, // Inclut les détails du produit associé

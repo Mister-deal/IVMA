@@ -8,19 +8,19 @@ const createCategory = async (data) => {
     });
 }
 
-const updateCategory = async (categories_id, data) => {
+const updateCategory = async (id, data) => {
     return await prisma.categories.update({
         where: {
-            categories_id
+            id
         },
         data
     });
 }
 
-const removeCategory = async (categories_id) => {
+const removeCategory = async (id) => {
     return await prisma.categories.delete({
         where: {
-            categories_id
+            id
         }
     })
 }
@@ -29,10 +29,10 @@ const findAllCategories = async () => {
     return await prisma.categories.findMany()
 }
 
-const findCategoryWhereId = async ( categories_id ) => {
+const findCategoryWhereId = async ( id ) => {
     return await prisma.categories.findUnique({
         where: {
-            categories_id
+            id
         }
     })
 }
