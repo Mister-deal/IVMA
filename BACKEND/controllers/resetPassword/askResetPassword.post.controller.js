@@ -32,7 +32,7 @@ const askResetPasswordController = async (req, res) => {
     if (userLogin !== null) {
         try {
             await createResetPassword({
-                userId: userLogin.users_id,
+                userId: userLogin.id,
             })
         } catch (error) {
             return res
@@ -42,7 +42,7 @@ const askResetPasswordController = async (req, res) => {
 
         try {
             const resetPassword = await findUniqueResetPasswordWhereUserId(
-                userLogin.users_id
+                userLogin.id
             )
             const resetPasswordLink = resetPassword.resets_password_id
             const link = `http://localhost:3000/reset-password/${resetPasswordLink}`
