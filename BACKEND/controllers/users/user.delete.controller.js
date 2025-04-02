@@ -51,7 +51,7 @@ const deleteUserController = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: 'Utilisateur supprimé avec succès',
-            deleted_user_id: userId,
+            deletedId: userId,
             timestamp: new Date().toISOString()
         });
 

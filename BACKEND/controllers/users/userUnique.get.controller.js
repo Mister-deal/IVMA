@@ -39,7 +39,7 @@ const getUserUniqueController = async (req, res) => {
 
         // 4. Filtrage des données sensibles
         const sanitizedUser = {
-            id: user.users_id, // Utilisation cohérente du champ ID
+            id: user.id, // Utilisation cohérente du champ ID
             pseudo: user.pseudo,
             email: user.email,
             role: user.role,

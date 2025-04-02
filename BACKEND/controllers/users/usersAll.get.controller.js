@@ -17,7 +17,7 @@ const getAllUsersController = async (req, res) => {
 
         // 3. Filtrage des données sensibles
         const sanitizedUsers = users.map(user => ({
-            id: user.users_id, // Préférez une nomenclature cohérente (users_id partout)
+            id: user.id, // Préférez une nomenclature cohérente (users_id partout)
             pseudo: user.pseudo,
             email: user.email,
             role: user.role,

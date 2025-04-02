@@ -44,7 +44,7 @@ const registerController = async (req, res) => {
             });
 
             // Validation UUID
-            if (!validateUUID(newUser.users_id)) {
+            if (!validateUUID(newUser.id)) {
                 console.error('Erreur : UUID invalide généré');
                 return res.status(500).json({
                     success: false,
@@ -56,7 +56,7 @@ const registerController = async (req, res) => {
                 success: true,
                 message: 'Compte créé avec succès',
                 user: {
-                    id: newUser.users_id,
+                    id: newUser.id,
                     pseudo: newUser.pseudo,
                     email: newUser.email,
                     role: newUser.role

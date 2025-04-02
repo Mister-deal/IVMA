@@ -33,23 +33,23 @@ router.get('/users',
     userAllGetController
 );
 
-router.get('/users/:id',
+router.get('/user/:id',
     checkRole(['admin', 'manager', 'user']),
     validateUUID, // Middleware supplémentaire pour valider l'UUID
     userUniqueGetController
 );
 
-router.patch('/users/:id/password',
+router.patch('/user/:id/password',
     checkRole(['admin', 'user']),
     updateUserPatchController
 );
 
-router.patch('/users/:id/role',
+router.patch('/user/:id/role',
     checkRole(['admin']), // Seul un admin peut modifier les rôles
     updateRoleUserPatchController
 );
 
-router.delete('/users/:id',
+router.delete('/user/:id',
     checkRole(['admin']),
     deleteUserController
 );
