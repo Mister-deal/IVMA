@@ -55,3 +55,5 @@ const getAllSuppliersController = async (req, res) => {
         })
     }
 }
+
+module.exports = getAllSuppliersController;
