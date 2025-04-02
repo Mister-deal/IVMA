@@ -13,7 +13,11 @@ const updateUserPatchController = require('../controllers/users/updatePasswordUs
 const updateRoleUserPatchController = require('../controllers/users/updatePasswordUser.patch.controller');
 const deleteUserController = require('../controllers/users/user.delete.controller');
 
+const getLoginController = require('../controllers/users/login.get.controller');
+
 // Routes publiques
+router.get('/login', getLoginController );
+
 router.post('/register', registerPostController);
 router.post('/login', loginPostController);
 router.get('/logout', (req, res) => {

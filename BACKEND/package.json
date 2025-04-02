@@ -10,6 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "mysql2": "^3.14.0",
     "@prisma/client": "^6.5.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
@@ -24,6 +25,7 @@
     "nodemailer": "^6.10.0",
     "nodemon": "^3.1.9",
     "path": "^0.12.7",
+    "prisma": "^6.5.0",
     "qrcode": "^1.5.4",
     "rotating-file-stream": "^3.2.6",
     "supertest": "^7.1.0",

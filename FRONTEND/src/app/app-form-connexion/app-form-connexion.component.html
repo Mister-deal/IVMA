@@ -1,38 +1,86 @@
 <div class="login-container">
-    <div class="login-form">
-      <div class="logo">
-        <img src="assets/logo.png" alt="IVMA Logo">
-      </div>
-  
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="input-group">
-          <label for="email">✉️</label>
-          <input type="text" formControlName="username" placeholder=" Adresse Email">
-        </div>
-        
-        <div class="input-group">
-          <label for="email">🔒</label>
-          <input type="password" formControlName="password" placeholder=" Mot de passe">
-        </div>
-        
-        <div>
-          <button type="submit" class="login-btn" [disabled]="!loginForm.valid">Connexion</button>
-        </div>
-        
-        <div>
-          <div>
-            <a href="javascript:void(0)" (click)="openPasswordModal()" class="forgot-password">
-              Mot de passe oublié
-            </a>
-          </div>
-          <div>
-            <a routerLink="/inscription" class="register">Pas encore de compte? Inscrivez-vous</a>
-          </div>
-        </div>
-      </form>
+  <div class="login-form">
+    <div class="logo">
+      <img src="assets/logo.png" alt="IVMA Logo">
     </div>
-  
+
+    <!-- Affichage des erreurs -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+      <!-- Champ Email -->
+      <div class="input-group" [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        <label for="email">✉️</label>
+        <input 
+          type="email" 
+          id="email"
+          formControlName="email" 
+          placeholder="Adresse Email"
+          [attr.aria-describedby]="loginForm.get('email')?.invalid ? 'emailHelp' : null">
+        
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" 
+             id="emailHelp" 
+             class="form-text text-danger">
+          <small *ngIf="loginForm.get('email')?.errors?.['required']">Email requis</small>
+          <small *ngIf="loginForm.get('email')?.errors?.['email']">Format email invalide</small>
+        </div>
+      </div>
+      
+      <!-- Champ Mot de passe -->
+      <div class="input-group" [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        <label for="password">🔒</label>
+        <input 
+          type="password" 
+          id="password"
+          formControlName="password" 
+          placeholder="Mot de passe"
+          [attr.aria-describedby]="'passwordHelp'">
+        
+        <div id="passwordHelp" class="form-text">
+          <small *ngIf="passwordRequirements" class="text-muted">
+            Le mot de passe doit contenir au moins :
+            {{ passwordRequirements.minLength }} caractères,
+            <span *ngIf="passwordRequirements.needsUpper">1 majuscule,</span>
+            <span *ngIf="passwordRequirements.needsNumber">1 chiffre</span>
+          </small>
+        </div>
+      </div>
+      
+      <!-- Bouton de soumission -->
+      <div class="form-group">
+        <button 
+          type="submit" 
+          class="login-btn" 
+          [disabled]="loginForm.invalid || isLoading"
+          [class.loading]="isLoading">
+          
+          <span *ngIf="!isLoading">Connexion</span>
+          <span *ngIf="isLoading">
+            <i class="fa fa-spinner fa-spin"></i> Connexion...
+          </span>
+        </button>
+      </div>
+      
+      <!-- Liens supplémentaires -->
+       <div class="form-links">
+        <!--<a href="javascript:void(0)" 
+           (click)="openPasswordModal()" 
+           class="forgot-password">
+          Mot de passe oublié ?
+        </a> -->
+        
+        <a routerLink="/inscription" class="register">
+          Pas encore de compte ? <strong>Inscrivez-vous</strong>
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Modale Mot de passe oublié
   <app-modal-mdp-oublie 
     *ngIf="showPasswordModal"
     (close)="closePasswordModal()">
-  </app-modal-mdp-oublie>
+  </app-modal-mdp-oublie> -->
+</div>
