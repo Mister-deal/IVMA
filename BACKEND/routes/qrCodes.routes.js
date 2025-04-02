@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middlewares/auth');
-const productsQrCodeGetController = require('../controllers/products/qrCode.get.controller');
-const { validateUUID } = require('../middlewares/validators');
+const auth = require('../authentification/auth');
+const { validateUUID } = require('../utils/regex/validators');
+const productsQrcodeGetController = require('../controllers/QrCodes/productQRCode.get.controller');
 
 // Route protégée pour récupérer un QR code
 router.get(
-    '/products/:id/qrcode',
+    '/qrCodeProduct/:id',
     auth,                     // Authentification requise
     validateUUID,             // Validation du format UUID
-    productsQrCodeGetController
+    productsQrcodeGetController,
 );
 
 module.exports = router;

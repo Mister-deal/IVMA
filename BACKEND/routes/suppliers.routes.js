@@ -27,3 +27,5 @@ router.delete('/supplier/:id', auth, async (req, res) => {
 router.patch('/supplier/:id', auth, async (req, res) => {
     await supplierPatchController(req, res);
 })
+
+module.exports = router

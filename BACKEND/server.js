@@ -9,6 +9,10 @@ const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index.routes');
 const userRouter = require('./routes/users.routes');
 const healthRouter = require('./routes/health.routes');
+const supplierRouter = require('./routes/suppliers.routes');
+const categoryRouter = require('./routes/categories.routes');
+const qrCodeRouter = require('./routes/qrCodes.routes');
+const resetPasswordRouter = require('./routes/resetPassword.routes');
 
 const domain = ['http://localhost:3000'];
 const allowedHeaders = ['Authorization', 'Content-Type', 'AuthorizationHeader'];
@@ -37,6 +41,10 @@ app.use(cookieParser());
 app.use(healthRouter);
 app.use(indexRouter);
 app.use(userRouter);
+app.use(categoryRouter);
+app.use(qrCodeRouter);
+app.use(supplierRouter);
+app.use(resetPasswordRouter)
 
 // Error handling middleware
 app.use((err, req, res, next) => {

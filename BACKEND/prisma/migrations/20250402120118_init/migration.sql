@@ -57,7 +57,6 @@ CREATE TABLE `Products` (
     `name` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NULL,
     `sku` VARCHAR(191) NOT NULL,
-    `price` DOUBLE NOT NULL,
     `quantity` INTEGER NOT NULL DEFAULT 0,
     `min_stock_alert` INTEGER NOT NULL DEFAULT 5,
     `supplier_id` VARCHAR(191) NULL,

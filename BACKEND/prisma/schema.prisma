@@ -67,7 +67,6 @@ model Products {
   name           String
   description    String?
   sku            String   @unique
-  price          Float
   quantity       Int      @default(0)
   min_stock_alert Int      @default(5)
   supplier_id    String?

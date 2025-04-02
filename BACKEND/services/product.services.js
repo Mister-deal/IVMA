@@ -62,6 +62,14 @@ const findProductWhereName = async (name) => {
     })
 }
 
+const findProductWhereSku = async (sku) => {
+    return await prisma.products.findFirst({
+        where: {
+            sku,
+        },
+    })
+}
+
 module.exports = {
     createProduct,
     updateProduct,
@@ -71,4 +79,5 @@ module.exports = {
     findProductWhereId,
     findProductWhereName,
     removeProduct,
+    findProductWhereSku
 }
