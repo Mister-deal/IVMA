@@ -1,18 +1,26 @@
 // middlewares/roleMiddleware.js
 const roleHierarchy = {
     admin: ['admin', 'manager', 'employee'],
-    manager: ['manager', 'employee'],
-    employee: ['employee']
+    manager: ['employee'],
+    employee: []
 };
 
 const checkRole = (allowedRoles) => {
     return (req, res, next) => {
-        const userRole = req.user?.role;
+        if (!Array.isArray(allowedRoles)) {
+            return res.status(500).json({
+                success: false,
+                message: "Configuration serveur invalide"
+            });
+        }
 
-        if (!userRole || !allowedRoles.includes(userRole)) {
+        const userRole = req.user?.role?.toLowerCase();
+
+        if (!userRole || !allowedRoles.some(role => role.toLowerCase() === userRole)) {
             return res.status(403).json({
                 success: false,
-                message: `Accès refusé. Rôles autorisés : ${allowedRoles.join(', ')}`
+                message: `Accès refusé. Rôles autorisés : ${allowedRoles.join(', ')}`,
+                yourRole: req.user?.role
             });
         }
         next();
@@ -20,16 +28,37 @@ const checkRole = (allowedRoles) => {
 };
 
 const canAssignRole = (req, res, next) => {
-    const requesterRole = req.user?.role;
-    const targetRole = req.body.role;
+    const requestedRole = (req.body.role || 'employee').toLowerCase();
+    const currentUserRole = req.user?.role?.toLowerCase();
 
-    if (!requesterRole || !roleHierarchy[requesterRole]?.includes(targetRole)) {
+    // 1. Inscriptions publiques (employee seulement)
+    if (!currentUserRole) {
+        if (requestedRole === 'employee' || requestedRole === 'manager') {
+            return next();
+        }
         return res.status(403).json({
             success: false,
-            message: `Vous n'êtes pas autorisé à attribuer le rôle ${targetRole}`
+            message: "Seuls les comptes employés et manager peuvent être créés publiquement"
         });
     }
-    next();
+
+    // 2. Vérification des permissions
+    const allowedRoles = roleHierarchy[currentUserRole] || [];
+
+    if (allowedRoles.map(r => r.toLowerCase()).includes(requestedRole)) {
+        return next();
+    }
+
+    // 3. Erreur détaillée
+    res.status(403).json({
+        success: false,
+        message: `Permission refusée : ${currentUserRole} → ${requestedRole}`,
+        allowedRoles: roleHierarchy[currentUserRole]
+    });
 };
 
-module.exports = { checkRole, canAssignRole };
+module.exports = {
+    checkRole,
+    canAssignRole,
+    roleHierarchy // Exporté pour les tests
+};

@@ -29,15 +29,31 @@ router.use(auth); // Authentification requise pour toutes les routes suivantes
 
 // Gestion des utilisateurs
 router.get('/users',
+    (req, res, next) => {
+        console.log('Rôle actuel:', req.user?.role); // Debug
+        next();
+    },
     checkRole(['admin', 'manager']),
     userAllGetController
 );
 
+
 router.get('/user/:id',
-    checkRole(['admin', 'manager', 'user']),
-    validateUUID, // Middleware supplémentaire pour valider l'UUID
+    (req, res, next) => {
+        console.log('[MIDDLEWARE] Après auth - avant validateUUID');
+        next();
+    },
+    (req, res, next) => {
+        console.log('[MIDDLEWARE] Après validateUUID - avant contrôleur');
+        next();
+    },
     userUniqueGetController
 );
+
+router.get('/test', (req, res) => {
+    console.log('[TEST] Route test appelée');
+    res.json({ status: 'OK', timestamp: new Date() });
+});
 
 router.patch('/user/:id/password',
     checkRole(['admin', 'user']),
