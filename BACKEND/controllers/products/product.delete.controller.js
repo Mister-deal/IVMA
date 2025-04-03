@@ -22,7 +22,7 @@ const deleteProductController = async (req, res) => {
     const roleCheck = checkRole(['admin', 'manager']);
     roleCheck(req, res, async () => {
         const { id } = req.params;
-        const tokenId = res.locals?.user?.userId;
+        const tokenId = res.locals?.user?.id;
 
         // 2. Validation UUID si nécessaire
         if (!uuid.validate(tokenId)) {

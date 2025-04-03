@@ -7,7 +7,7 @@ const uuid = require('uuid');
 const updateProductController = async (req, res) => {
     // 1. Vérification du rôle et de l'authentification
     const validate = uuid.validate;
-    const tokenId = res.locals?.user?.userId;
+    const tokenId = res.locals?.user?.id;
     const tokenRole = res.locals?.user?.role;
 
     if (!validate(tokenId)) {
