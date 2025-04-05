@@ -1,10 +1,3 @@
-// middlewares/roleMiddleware.js
-const roleHierarchy = {
-    admin: ['admin', 'manager', 'employee'],
-    manager: ['employee'],
-    employee: []
-};
-
 const checkRole = (allowedRoles) => {
     return (req, res, next) => {
         if (!Array.isArray(allowedRoles)) {
@@ -60,5 +53,4 @@ const canAssignRole = (req, res, next) => {
 module.exports = {
     checkRole,
     canAssignRole,
-    roleHierarchy // Exporté pour les tests
 };

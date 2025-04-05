@@ -13,12 +13,19 @@ const main = async () => {
     }
 
     try {
-        await prisma.users.create({
+        await prisma.users.createMany({
             data: [
                 {
                     pseudo: 'IVMAtest',
                     email: 'projetivma@gmail.com',
                     password_hash: await bcrypt.hash('TestIvma0', 10),
+                    role: 'admin',
+                    is_active: true
+                },
+                {
+                    pseudo: 'IVMAtest1',
+                    email: 'projetivma1@gmail.com',
+                    password_hash: await bcrypt.hash('TestIvma1', 10),
                     role: 'admin',
                     is_active: true
                 },
